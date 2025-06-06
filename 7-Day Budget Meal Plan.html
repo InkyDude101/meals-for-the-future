@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7-Day Budget Meal Plan (Perth)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+            color: #374151; /* Darker text */
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        /* Custom styles for contenteditable cells to look like input fields */
+        [contenteditable="true"] {
+            outline: none; /* Remove default blue outline */
+            border-bottom: 1px dashed #9ca3af; /* Light dashed border to indicate editability */
+            padding: 0.25rem 0.5rem;
+            cursor: text;
+        }
+        [contenteditable="true"]:focus {
+            border-bottom-color: #4f46e5; /* Highlight on focus */
+        }
+        /* Style for table headers */
+        th {
+            background-color: #4f46e5; /* Indigo */
+            color: white;
+            padding: 0.75rem 0.5rem;
+            text-align: left;
+        }
+        /* Alternating row colors for better readability */
+        .meal-table tbody tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+        .meal-table tbody tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        /* Highlight total rows */
+        .total-row {
+            background-color: #e0e7ff; /* Light indigo */
+            font-weight: 600;
+        }
+        .weekly-average-row {
+            background-color: #bfdbfe; /* Lighter blue */
+            font-weight: 700;
+        }
+        .grocery-total-row {
+            background-color: #d1fae5; /* Light green */
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="container bg-white shadow-xl rounded-lg p-6 sm:p-8">
+
+        <!-- Header Section -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-indigo-700 mb-2">7-Day Budget Meal Plan</h1>
+            <p class="text-xl sm:text-2xl font-medium text-gray-600">Perth Edition</p>
+            <div class="mt-4 p-4 bg-indigo-50 rounded-lg shadow-inner">
+                <p class="text-lg font-semibold text-indigo-800">Target: <span id="targetKcal">2000-2500 kcal/day</span> | <span id="targetProtein">220g+ protein</span> | Budget-friendly</p>
+            </div>
+        </header>
+
+        <!-- Perth Shopping Tips -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold text-indigo-600 mb-4 pb-2 border-b-2 border-indigo-200">Perth Shopping Tips</h2>
+            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                <li>Use Woolworths "Imperfect Picks" for 30% off seasonal veggies</li>
+                <li>Coles Community Co brand for cheapest staples</li>
+                <li>ALDI for frozen veggies ($2.50/kg) and bulk nuts</li>
+                <li>Buy chicken thighs in 1kg packs ($9 at Woolworths RSPCA)</li>
+            </ul>
+        </section>
+
+        <!-- Meal Plan Table -->
+        <section class="mb-10">
+            <h2 class="text-2xl font-semibold text-indigo-600 mb-4 pb-2 border-b-2 border-indigo-200">Meal Plan</h2>
+            <div class="overflow-x-auto rounded-lg shadow-md">
+                <table class="w-full text-sm text-gray-700 meal-table">
+                    <thead class="text-xs uppercase">
+                        <tr>
+                            <th class="px-2 py-3 rounded-tl-lg">Day</th>
+                            <th class="px-2 py-3">Meal</th>
+                            <th class="px-2 py-3">Description</th>
+                            <th class="px-2 py-3 text-right">Calories</th>
+                            <th class="px-2 py-3 text-right">Protein (g)</th>
+                            <th class="px-2 py-3 text-right rounded-tr-lg">Rough Cost (AUD)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Monday -->
+                        <tr>
+                            <td class="px-2 py-2 font-medium whitespace-nowrap">Monday</td>
+                            <td class="px-2 py-2">Breakfast</td>
+                            <td class="px-2 py-2">4 scrambled eggs + 1/2 can black beans + 2 slices wholemeal toast</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">550</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">38</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">3.20</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2"></td>
+                            <td class="px-2 py-2">Snack</td>
+                            <td class="px-2 py-2">BSC Whey Protein Shake (Coles) + 200ml milk</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">250</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">30</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">1.80</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2"></td>
+                            <td class="px-2 py-2">Lunch</td>
+                            <td class="px-2 py-2">Tuna salad: 2 cans tuna + 1 cup chickpeas + seasonal veggies</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">600</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">55</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">4.50</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2"></td>
+                            <td class="px-2 py-2">Dinner</td>
+                            <td class="px-2 py-2">Chicken & lentil curry (200g chicken thighs + 1/2 cup lentils + frozen veggies)</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">750</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">62</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">4.00</td>
+                        </tr>
+                        <tr class="total-row" data-day="Monday">
+                            <td class="px-2 py-2 font-bold" colspan="3">Monday Total</td>
+                            <td class="px-2 py-2 text-right font-bold day-total-calories"></td>
+                            <td class="px-2 py-2 text-right font-bold day-total-protein"></td>
+                            <td class="px-2 py-2 text-right font-bold day-total-cost"></td>
+                        </tr>
+
+                        <!-- Tuesday -->
+                        <tr>
+                            <td class="px-2 py-2 font-medium whitespace-nowrap">Tuesday</td>
+                            <td class="px-2 py-2">Breakfast</td>
+                            <td class="px-2 py-2">Overnight oats: 1 cup oats + 1.5 scoop protein + 2 tbsp PB</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">600</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">45</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">3.00</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2"></td>
+                            <td class="px-2 py-2">Lunch</td>
+                            <td class="px-2 py-2">Leftover chicken lentil curry + 1.5 cup brown rice</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">800</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">55</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">2.00</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2"></td>
+                            <td class="px-2 py-2">Dinner</td>
+                            <td class="px-2 py-2">Beef mince bolognese (250g mince + pasta sauce + grated veggies) + 1 cup pasta</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">700</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">50</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">5.00</td>
+                        </tr>
+                        <tr class="total-row" data-day="Tuesday">
+                            <td class="px-2 py-2 font-bold" colspan="3">Tuesday Total</td>
+                            <td class="px-2 py-2 text-right font-bold day-total-calories"></td>
+                            <td class="px-2 py-2 text-right font-bold day-total-protein"></td>
+                            <td class="px-2 py-2 text-right font-bold day-total-cost"></td>
+                        </tr>
+
+                        <!-- Wednesday -->
+                        <tr>
+                            <td class="px-2 py-2 font-medium whitespace-nowrap">Wednesday</td>
+                            <td class="px-2 py-2">Breakfast</td>
+                            <td class="px-2 py-2">4-egg omelette w/ spinach + 40g cheese</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">500</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">36</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">3.00</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2"></td>
+                            <td class="px-2 py-2">Lunch</td>
+                            <td class="px-2 py-2">Lentil soup: 1 can lentils + mixed veggies + 2 slices bread</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">550</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">30</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">2.50</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2"></td>
+                            <td class="px-2 py-2">Dinner</td>
+                            <td class="px-2 py-2">Chickpea & sweet potato patties (2 patties) + large salad + 1/2 cup quinoa</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">700</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">35</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">4.00</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2"></td>
+                            <td class="px-2 py-2">Snack</td>
+                            <td class="px-2 py-2">2 hard-boiled eggs + apple + handful of almonds</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">300</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">18</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">2.00</td>
+                        </tr>
+                        <tr class="total-row" data-day="Wednesday">
+                            <td class="px-2 py-2 font-bold" colspan="3">Wednesday Total</td>
+                            <td class="px-2 py-2 text-right font-bold day-total-calories"></td>
+                            <td class="px-2 py-2 text-right font-bold day-total-protein"></td>
+                            <td class="px-2 py-2 text-right font-bold day-total-cost"></td>
+                        </tr>
+
+                        <!-- Thursday -->
+                        <tr>
+                            <td class="px-2 py-2 font-medium whitespace-nowrap">Thursday</td>
+                            <td class="px-2 py-2">Breakfast</td>
+                            <td class="px-2 py-2">4 boiled eggs + 2 toast + 1/4 avocado + 1 tbsp peanut butter</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">700</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">32</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">4.00</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2"></td>
+                            <td class="px-2 py-2">Lunch</td>
+                            <td class="px-2 py-2">Leftover lentil soup + 2 slices bread</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">500</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">22</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">0.80</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2"></td>
+                            <td class="px-2 py-2">Dinner</td>
+                            <td class="px-2 py-2">Chicken breast (200g grilled/baked) + roasted sweet potatoes/carrots + green beans</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">700</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">55</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">5.50</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2"></td>
+                            <td class="px-2 py-2">Snack</td>
+                            <td class="px-2 py-2">Greek yogurt (150g) with berries</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">150</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">15</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">1.50</td>
+                        </tr>
+                        <tr class="total-row" data-day="Thursday">
+                            <td class="px-2 py-2 font-bold" colspan="3">Thursday Total</td>
+                            <td class="px-2 py-2 text-right font-bold day-total-calories"></td>
+                            <td class="px-2 py-2 text-right font-bold day-total-protein"></td>
+                            <td class="px-2 py-2 text-right font-bold day-total-cost"></td>
+                        </tr>
+
+                        <!-- Friday -->
+                        <tr>
+                            <td class="px-2 py-2 font-medium whitespace-nowrap">Friday</td>
+                            <td class="px-2 py-2">Breakfast</td>
+                            <td class="px-2 py-2">Porridge: 1 cup oats + 1.5 scoop protein + honey + 1 tbsp chia seeds</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">550</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">40</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">2.50</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2"></td>
+                            <td class="px-2 py-2">Lunch</td>
+                            <td class="px-2 py-2">Woolworths roast chicken (200g) + coleslaw + extra wholemeal roll</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">700</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">55</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">6.50</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2"></td>
+                            <td class="px-2 py-2">Dinner</td>
+                            <td class="px-2 py-2">Chicken stir-fry (200g chicken + frozen veggies) + 1.5 cup rice</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">850</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">55</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">5.00</td>
+                        </tr>
+                        <tr class="total-row" data-day="Friday">
+                            <td class="px-2 py-2 font-bold" colspan="3">Friday Total</td>
+                            <td class="px-2 py-2 text-right font-bold day-total-calories"></td>
+                            <td class="px-2 py-2 text-right font-bold day-total-protein"></td>
+                            <td class="px-2 py-2 text-right font-bold day-total-cost"></td>
+                        </tr>
+
+                        <!-- Saturday -->
+                        <tr>
+                            <td class="px-2 py-2 font-medium whitespace-nowrap">Saturday</td>
+                            <td class="px-2 py-2">Breakfast</td>
+                            <td class="px-2 py-2">4-egg scramble + 1/2 can black beans on toast</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">650</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">45</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">4.00</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2"></td>
+                            <td class="px-2 py-2">Lunch</td>
+                            <td class="px-2 py-2">Leftover stir-fry + extra 1/2 cup chickpeas</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">650</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">40</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">1.00</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2"></td>
+                            <td class="px-2 py-2">Dinner</td>
+                            <td class="px-2 py-2">Homemade burger: 250g beef patty + wholemeal bun + large salad with dressing</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">850</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">55</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">5.50</td>
+                        </tr>
+                        <tr class="total-row" data-day="Saturday">
+                            <td class="px-2 py-2 font-bold" colspan="3">Saturday Total</td>
+                            <td class="px-2 py-2 text-right font-bold day-total-calories"></td>
+                            <td class="px-2 py-2 text-right font-bold day-total-protein"></td>
+                            <td class="px-2 py-2 text-right font-bold day-total-cost"></td>
+                        </tr>
+
+                        <!-- Sunday -->
+                        <tr>
+                            <td class="px-2 py-2 font-medium whitespace-nowrap">Sunday</td>
+                            <td class="px-2 py-2">Breakfast</td>
+                            <td class="px-2 py-2">Chia pudding: 3 tbsp chia + 1 cup milk + 1.5 scoop protein + mixed berries</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">500</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">40</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">3.00</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2"></td>
+                            <td class="px-2 py-2">Lunch</td>
+                            <td class="px-2 py-2">3-bean salad (1 cup mixed beans + corn + 100g feta) + 1 boiled egg</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">600</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">35</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">4.00</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2"></td>
+                            <td class="px-2 py-2">Dinner</td>
+                            <td class="px-2 py-2">Spaghetti w/ lentil "meat" sauce (250g mince + lentils) + extra grated cheese</td>
+                            <td class="px-2 py-2 text-right calories-input" contenteditable="true">850</td>
+                            <td class="px-2 py-2 text-right protein-input" contenteditable="true">60</td>
+                            <td class="px-2 py-2 text-right cost-input" contenteditable="true">5.50</td>
+                        </tr>
+                        <tr class="total-row" data-day="Sunday">
+                            <td class="px-2 py-2 font-bold" colspan="3">Sunday Total</td>
+                            <td class="px-2 py-2 text-right font-bold day-total-calories"></td>
+                            <td class="px-2 py-2 text-right font-bold day-total-protein"></td>
+                            <td class="px-2 py-2 text-right font-bold day-total-cost"></td>
+                        </tr>
+
+                        <!-- Weekly Averages -->
+                        <tr class="weekly-average-row">
+                            <td class="px-2 py-2 font-bold" colspan="3">Weekly Average</td>
+                            <td class="px-2 py-2 text-right font-bold weekly-average-calories"></td>
+                            <td class="px-2 py-2 text-right font-bold weekly-average-protein"></td>
+                            <td class="px-2 py-2 text-right font-bold weekly-average-cost"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Budget Grocery List -->
+        <section class="mb-10">
+            <h2 class="text-2xl font-semibold text-indigo-600 mb-4 pb-2 border-b-2 border-indigo-200">Budget Grocery List</h2>
+            <div class="overflow-x-auto rounded-lg shadow-md">
+                <table class="w-full text-sm text-gray-700">
+                    <thead class="text-xs uppercase">
+                        <tr>
+                            <th class="px-2 py-3 rounded-tl-lg">Item</th>
+                            <th class="px-2 py-3">Quantity</th>
+                            <th class="px-2 py-3">Where to Buy</th>
+                            <th class="px-2 py-3 text-right rounded-tr-lg">Estimated Cost (AUD)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="px-2 py-2 font-medium whitespace-nowrap">Eggs</td>
+                            <td class="px-2 py-2">2 dozen</td>
+                            <td class="px-2 py-2">Coles Free Range</td>
+                            <td class="px-2 py-2 text-right grocery-cost-input" contenteditable="true">10.00</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2 font-medium whitespace-nowrap">Chicken thighs</td>
+                            <td class="px-2 py-2">1.5kg</td>
+                            <td class="px-2 py-2">Woolworths RSPCA</td>
+                            <td class="px-2 py-2 text-right grocery-cost-input" contenteditable="true">13.50</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2 font-medium whitespace-nowrap">Canned tuna</td>
+                            <td class="px-2 py-2">4 cans</td>
+                            <td class="px-2 py-2">Coles Home Brand</td>
+                            <td class="px-2 py-2 text-right grocery-cost-input" contenteditable="true">4.80</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2 font-medium whitespace-nowrap">Lentils (canned)</td>
+                            <td class="px-2 py-2">3 cans</td>
+                            <td class="px-2 py-2">ALDI</td>
+                            <td class="px-2 py-2 text-right grocery-cost-input" contenteditable="true">2.40</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2 font-medium whitespace-nowrap">Frozen veggies</td>
+                            <td class="px-2 py-2">2kg</td>
+                            <td class="px-2 py-2">ALDI/Coles</td>
+                            <td class="px-2 py-2 text-right grocery-cost-input" contenteditable="true">5.00</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2 font-medium whitespace-nowrap">Oats</td>
+                            <td class="px-2 py-2">1kg</td>
+                            <td class="px-2 py-2">Coles Home Brand</td>
+                            <td class="px-2 py-2 text-right grocery-cost-input" contenteditable="true">1.80</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2 font-medium whitespace-nowrap">BSC Whey Protein</td>
+                            <td class="px-2 py-2">1kg</td>
+                            <td class="px-2 py-2">Coles</td>
+                            <td class="px-2 py-2 text-right grocery-cost-input" contenteditable="true">35.00</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2 font-medium whitespace-nowrap">Beef Mince</td>
+                            <td class="px-2 py-2">500g</td>
+                            <td class="px-2 py-2">Coles/Woolworths</td>
+                            <td class="px-2 py-2 text-right grocery-cost-input" contenteditable="true">6.00</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2 font-medium whitespace-nowrap">Black Beans</td>
+                            <td class="px-2 py-2">1 can</td>
+                            <td class="px-2 py-2">ALDI/Coles</td>
+                            <td class="px-2 py-2 text-right grocery-cost-input" contenteditable="true">1.20</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2 font-medium whitespace-nowrap">Greek Yogurt</td>
+                            <td class="px-2 py-2">500g</td>
+                            <td class="px-2 py-2">Coles/Woolworths</td>
+                            <td class="px-2 py-2 text-right grocery-cost-input" contenteditable="true">4.00</td>
+                        </tr>
+                        <tr class="grocery-total-row">
+                            <td class="px-2 py-2 font-bold" colspan="3">Total Grocery Cost</td>
+                            <td class="px-2 py-2 text-right font-bold grocery-total-cost"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Notes Section -->
+        <section class="mb-4 p-4 bg-gray-100 rounded-lg shadow-inner">
+            <h2 class="text-xl font-semibold text-gray-700 mb-2">Notes</h2>
+            <ul class="list-disc list-inside text-gray-600 space-y-1">
+                <li>This plan assumes you have basic pantry staples (oil, spices, etc.)</li>
+                <li>Leftovers are intentionally planned for multiple meals</li>
+                <li>Adjust portions if you need more/less calories</li>
+            </ul>
+        </section>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Function to safely parse numbers from contenteditable cells
+            function parseNumber(value) {
+                const num = parseFloat(value.replace(/[^0-9.-]+/g,"")); // Remove non-numeric chars except . and -
+                return isNaN(num) ? 0 : num;
+            }
+
+            // Function to update daily totals for calories, protein, and cost
+            function updateDailyTotals() {
+                const tableBody = document.querySelector('.meal-table tbody');
+                const rows = Array.from(tableBody.children); // Get all direct children (tr elements)
+
+                let currentDayCalories = 0;
+                let currentDayProtein = 0;
+                let currentDayCost = 0;
+
+                let weeklyCalories = 0;
+                let weeklyProtein = 0;
+                let weeklyCost = 0;
+                let numDaysCalculated = 0;
+
+                rows.forEach(row => {
+                    const firstCellText = row.querySelector('td:first-child')?.textContent.trim();
+
+                    if (row.classList.contains('total-row')) {
+                        // This is a total row. Get the data-day attribute to find which day's total it is.
+                        const dayName = row.dataset.day;
+                        if (dayName) {
+                            row.querySelector('.day-total-calories').textContent = currentDayCalories;
+                            row.querySelector('.day-total-protein').textContent = currentDayProtein;
+                            row.querySelector('.day-total-cost').textContent = currentDayCost.toFixed(2);
+
+                            weeklyCalories += currentDayCalories;
+                            weeklyProtein += currentDayProtein;
+                            weeklyCost += currentDayCost;
+                            numDaysCalculated++;
+
+                            // Reset for the next day
+                            currentDayCalories = 0;
+                            currentDayProtein = 0;
+                            currentDayCost = 0;
+                        }
+                    } else {
+                        // This is a meal row. Sum up its values.
+                        const caloriesInput = row.querySelector('.calories-input');
+                        const proteinInput = row.querySelector('.protein-input');
+                        const costInput = row.querySelector('.cost-input');
+
+                        if (caloriesInput && proteinInput && costInput) {
+                            currentDayCalories += parseNumber(caloriesInput.textContent);
+                            currentDayProtein += parseNumber(proteinInput.textContent);
+                            currentDayCost += parseNumber(costInput.textContent);
+                        }
+                    }
+                });
+
+                // Update weekly averages
+                if (numDaysCalculated > 0) {
+                    document.querySelector('.weekly-average-calories').textContent = (weeklyCalories / numDaysCalculated).toFixed(0);
+                    document.querySelector('.weekly-average-protein').textContent = (weeklyProtein / numDaysCalculated).toFixed(0);
+                    document.querySelector('.weekly-average-cost').textContent = (weeklyCost / numDaysCalculated).toFixed(2);
+                } else {
+                    // Handle case where no days are calculated (e.g., empty table)
+                    document.querySelector('.weekly-average-calories').textContent = '0';
+                    document.querySelector('.weekly-average-protein').textContent = '0';
+                    document.querySelector('.weekly-average-cost').textContent = '0.00';
+                }
+            }
+
+            // Function to update grocery total
+            function updateGroceryTotal() {
+                const groceryCostInputs = document.querySelectorAll('.grocery-cost-input');
+                let totalGroceryCost = 0;
+                groceryCostInputs.forEach(input => {
+                    totalGroceryCost += parseNumber(input.textContent);
+                });
+                document.querySelector('.grocery-total-cost').textContent = totalGroceryCost.toFixed(2);
+            }
+
+            // Main update function
+            function updateAllCalculations() {
+                updateDailyTotals();
+                updateGroceryTotal();
+            }
+
+            // Add event listeners to all editable number fields
+            document.querySelectorAll('[contenteditable="true"]').forEach(element => {
+                element.addEventListener('input', updateAllCalculations);
+                // Also ensure only numbers can be entered
+                element.addEventListener('keydown', (e) => {
+                    // Allow numbers, decimal point, backspace, delete, arrow keys, Tab
+                    // Also allow specific keys for navigation/editing
+                    if (!((e.key >= '0' && e.key <= '9') ||
+                          e.key === '.' ||
+                          e.key === 'Backspace' ||
+                          e.key === 'Delete' ||
+                          e.key === 'ArrowLeft' ||
+                          e.key === 'ArrowRight' ||
+                          e.key === 'Tab' ||
+                          (e.ctrlKey && (e.key === 'v' || e.key === 'c' || e.key === 'x')) // Ctrl+V, C, X
+                          )) {
+                        e.preventDefault();
+                    }
+                    // Allow only one decimal point
+                    if (e.key === '.' && element.textContent.includes('.')) {
+                        e.preventDefault();
+                    }
+                });
+            });
+
+            // Initial calculation on page load
+            updateAllCalculations();
+        });
+    </script>
+</body>
+</html>
